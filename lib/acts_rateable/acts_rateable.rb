@@ -5,7 +5,7 @@ module ActsRateable
   end
 
   module ClassMethods
-    
+
     def acts_rateable(options = {})
       if (Rails::VERSION::STRING.to_f >= 4)
         has_many :rates, ->(obj) { where(resource_type: obj.class.base_class.name) }, class_name: ActsRateable::Rate, foreign_key: :resource_id, dependent: :destroy
@@ -28,34 +28,34 @@ module ActsRateable
       }
 
       after_create do
-        ActsRateable::Rating.where({resource_id: self.id, resource_type: self.class.base_class.name }).first_or_initialize.save
-        ActsRateable::Count.where({resource_id: self.id, resource_type: self.class.base_class.name }).first_or_initialize.save
+        ActsRateable::Rating.where({resource_id: self.id, resource_type: self.class.base_class.name}).first_or_initialize.save
+        ActsRateable::Count.where({resource_id: self.id, resource_type: self.class.base_class.name}).first_or_initialize.save
       end
-      
+
       include LocalInstanceMethods
     end
   end
 
   module LocalInstanceMethods
-    
 
-    def variation( author )
-      rated_by?(author) ? (rated_by?(author).value/self.rating['estimate']) : nil
+
+    def variation( author , shipment )
+      rated_by?(author, shipment) ? (rated_by?(author, shipment).value/self.rating['estimate']) : nil
     end
-    
+
     # Checks wheter a resource has been rated by a user. Returns the rating if true, otherwise returns false.
-    def rated_by?( author )
-      ActsRateable::Rate.rated?(self, author)
+    def rated_by?( author , shipment )
+      ActsRateable::Rate.rated?(self, author, shipment)
     end
-    
+
     # Checks wheter a user rated a resource. Returns the rating if true, otherwise returns false.
-    def has_rated?( resource )
-      ActsRateable::Rate.rated?(resource, self)
+    def has_rated?( resource , shipment )
+      ActsRateable::Rate.rated?(resource, self, shipment)
     end
-    
+
   	# Rates a resource by an author with a given value.
-		def rate( resource, value )
-      ActsRateable::Rate.create(self, resource, value)
+		def rate( resource, value, shipment )
+      ActsRateable::Rate.create(self, resource, value, shipment)
 		end
 
   end

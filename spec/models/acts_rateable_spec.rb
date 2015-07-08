@@ -3,10 +3,11 @@ require 'spec_helper'
 describe ActsRateable do
   describe 'associations' do
     let(:post) { FactoryGirl.create(:post) }
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryGirl.create(:user) }    
+    let(:shipment) { FactoryGirl.create(:user) }
 
     before(:each) do
-      user.rate(post, rand(1..5))
+      user.rate(post, rand(1..5), shipment)
     end
 
     describe 'resource' do
@@ -37,22 +38,23 @@ describe ActsRateable do
   describe 'instance methods' do
     let(:post) { FactoryGirl.create(:post) }
     let(:user) { FactoryGirl.create(:user) }
+    let(:shipment) { FactoryGirl.create(:user) }
 
     it 'responds to rate' do
       expect(post).to respond_to(:rate)
     end
 
     it 'should create rate when rated' do
-      expect { post.rate(user, 4) }.to change { ActsRateable::Rate.count }
+      expect { post.rate(user, 4, shipment) }.to change { ActsRateable::Rate.count }
     end
 
     it 'should create rating when rated' do
-      expect { post.rate(user, 4) }.to change { ActsRateable::Rating.count }
+      expect { post.rate(user, 4, shipment) }.to change { ActsRateable::Rating.count }
     end
 
     it 'should not duplicate rate when re-rated' do
-      post.rate(user, 4)
-      expect { post.rate(user, 4) }.to_not change { ActsRateable::Rating.count }
+      post.rate(user, 4, shipment)
+      expect { post.rate(user, 4, shipment) }.to_not change { ActsRateable::Rating.count }
     end
 
     describe 'rated_by' do
@@ -61,12 +63,12 @@ describe ActsRateable do
       end
 
       it 'should not be rated_by(user)' do
-        expect(post.rated_by?(user).empty?).to be(true)
+        expect(post.rated_by?(user, shipment).empty?).to be(true)
       end
 
       it 'should be rated_by(user)' do
-        user.rate(post, 5)
-        expect(post.rated_by?(user).empty?).to be(false)
+        user.rate(post, 5, shipment)
+        expect(post.rated_by?(user, shipment).empty?).to be(false)
       end
     end
 
@@ -76,7 +78,7 @@ describe ActsRateable do
       end
 
       it 'has_rated returns values' do
-        expect(user.has_rated?(post)).to_not be(false)
+        expect(user.has_rated?(post, shipment)).to_not be(false)
       end
     end
   end

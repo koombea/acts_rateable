@@ -11,16 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130520163820) do
+ActiveRecord::Schema.define(version: 20150707152952) do
 
   create_table "ar_rates", force: true do |t|
     t.integer  "resource_id",               null: false
     t.string   "resource_type",             null: false
     t.integer  "author_id",                 null: false
     t.string   "author_type",               null: false
+    t.integer  "shipment_id"
     t.integer  "value",         default: 0
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "ar_rates", ["author_id", "author_type"], name: "index_ar_rates_on_author_id_and_author_type"
@@ -33,8 +34,9 @@ ActiveRecord::Schema.define(version: 20130520163820) do
     t.integer  "sum",           default: 0
     t.decimal  "average",       default: 0.0
     t.decimal  "estimate",      default: 0.0
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.integer  "shipment_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "ar_ratings", ["resource_id", "resource_type"], name: "index_ar_ratings_on_resource_id_and_resource_type"
@@ -42,15 +44,20 @@ ActiveRecord::Schema.define(version: 20130520163820) do
   create_table "posts", force: true do |t|
     t.string   "name"
     t.integer  "value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "shipments", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|
     t.string   "name"
     t.integer  "value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

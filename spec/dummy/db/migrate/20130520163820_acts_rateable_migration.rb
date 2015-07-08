@@ -4,6 +4,7 @@ class ActsRateableMigration < ActiveRecord::Migration
     create_table :ar_rates do |t|
       t.references :resource, :polymorphic => true, :null => false
       t.references :author, :polymorphic => true, :null => false
+      t.integer :shipment_id  # New field to support shipment_id socpe
       t.integer :value, :default => 0
       t.timestamps
     end
@@ -16,6 +17,7 @@ class ActsRateableMigration < ActiveRecord::Migration
       t.integer :sum, :default => 0
       t.decimal :average, :default => 0
       t.decimal :estimate, :default => 0
+      t.integer :shipment_id  # New field to support shipment_id socpe
       t.timestamps
     end
     add_index :ar_ratings, [:resource_id, :resource_type]

@@ -114,3 +114,6 @@ DEPENDENCIES
   protected_attributes
   rspec-rails (> 3.0)
   sqlite3
+
+BUNDLED WITH
+   1.10.4
