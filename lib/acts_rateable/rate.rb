@@ -10,7 +10,7 @@ module ActsRateable
     validates :author, :resource, :value, presence: true
 
     validates_numericality_of :value, :greater_than_or_equal_to => 1, :less_than_or_equal_to => 100
-  	validates_uniqueness_of :author_id, :scope => [:author_type, :resource_id, :resource_type]
+  	validates_uniqueness_of :author_id, :scope => [:author_type, :resource_id, :resource_type, :shipment_id]
 
     unless (Rails::VERSION::STRING.to_f >= 4)
   	  attr_accessible :resource_id, :resource_type, :author_type, :author_id, :value, :shipment_id
