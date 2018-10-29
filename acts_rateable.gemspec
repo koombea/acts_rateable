@@ -12,10 +12,10 @@ Gem::Specification.new do |s|
   s.description   = %q{Rails 3 Bayesian Ratings Gem}
   s.summary       = %q{ActsRateable is a Ruby on Rails gem which makes ActiveRecord models rateable through a polymorphic association. Bayesian Estimates are generated and cached for each association enabling models to be quickly ordered by bayesian estimate.}
   s.homepage      = 'https://github.com/tyrauber/acts_rateable'
-  s.licenses       = ['MIT']
+  s.licenses      = ['MIT']
   s.files = Dir['{app,config,db,lib}/**/*'] + ['MIT-LICENSE', 'Rakefile', 'README.rdoc']
 
-  s.add_dependency 'rails',  '~> 4'
+  s.add_dependency 'rails', '~> 5'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'protected_attributes'
   s.add_development_dependency 'rspec-rails', '> 3.0'
